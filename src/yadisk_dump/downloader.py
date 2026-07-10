@@ -335,6 +335,8 @@ class Downloader:
                     pass
                 self.api.wait(min(2 ** (attempt - 1), 16))
 
+            if written:
+                self.callbacks.chunk(record, -written)
             self.state.set_status(record.remote_path, "failed", error=last_reason)
             return DownloadOutcome(record, "failed", 0, last_reason)
         finally:
