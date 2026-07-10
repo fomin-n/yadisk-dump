@@ -66,11 +66,16 @@ def to_io_path(path: Path, *, platform: str | None = None) -> Path:
     """Add a Windows extended-length prefix when necessary for filesystem I/O."""
     current = sys.platform if platform is None else platform
     value = str(path.absolute())
-    if current != "win32" or len(value) <= 240 or value.startswith("\\\\?\\"):
+    if current != "win32":
         return path
-    if value.startswith("\\\\"):
-        return Path(f"\\\\?\\UNC\\{value[2:]}")
-    return Path(f"\\\\?\\{value}")
+    if sys.platform != "win32" and platform == "win32":
+        value = str(path)
+    windows_value = value.replace("/", "\\")
+    if len(windows_value) <= 240 or windows_value.startswith("\\\\?\\"):
+        return path
+    if windows_value.startswith("\\\\"):
+        return Path(f"\\\\?\\UNC\\{windows_value[2:]}")
+    return Path(f"\\\\?\\{windows_value}")
 
 
 def is_case_insensitive_platform(platform: str | None = None) -> bool:
@@ -148,4 +153,3 @@ def _with_suffix(name: str, suffix: int, kind: str) -> str:
         if dot > 0:
             return f"{name[:dot]}_{suffix}{name[dot:]}"
     return f"{name}_{suffix}"
-
