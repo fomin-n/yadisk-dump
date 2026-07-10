@@ -1,0 +1,17 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+*.part
+state.db
+state.db-shm
+state.db-wal
+.yadisk-dump/
+.config/yadisk-dump/
+token
+

@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "yadisk-dump"
+version = "0.1.0"
+description = "Download your entire Yandex.Disk. Read-only, resumable, beautiful CLI."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "fomin-n" }]
+keywords = ["backup", "cli", "download", "yandex-disk"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: System :: Archiving :: Backup",
+]
+dependencies = [
+  "yadisk[sync_defaults]>=3.4,<4",
+  "rich>=13,<15",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<9",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+yadisk-dump = "yadisk_dump.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/fomin-n/yadisk-dump"
+Repository = "https://github.com/fomin-n/yadisk-dump"
+Issues = "https://github.com/fomin-n/yadisk-dump/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/yadisk_dump"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
